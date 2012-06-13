@@ -41,10 +41,15 @@ Ext.ux.state.PersistStateProvider = Ext.extend(Ext.state.Provider, {
         }
     },
     set: function(name, value) {
-        if (typeof value == "undefined" || value === null) {
+        if (value === null) {
             return;
         }
-        var val = this.encodeValue(value);
+        if (typeof value === "undefined"){
+            // Allow undefined values (to clear keys?)
+            var val = undefined;
+        } else {
+            var val = this.encodeValue(value);    
+        }
         this.store.set(name, val);
         this.fireEvent("statechange", this, name, value);
     },
@@ -63,12 +68,29 @@ Ext.ux.state.PersistStateProvider = Ext.extend(Ext.state.Provider, {
     clear: function(name) {
         this.store.remove(name);
         this.fireEvent("statechange", this, name, null);
+    },
+    debug: function(){
+        console.dir(this.store);
     }
 });
 
 Ext.ux.mattgoldspink.subsonic.UserPrefsStore =  new Ext.ux.state.PersistStateProvider({
     name: 'subtunes-user-preferences',
     defaults: {
+        'subsonic-clear-settings': {
+            text: 'Clear all settings',
+            description: 'Do you want to clear all your settings?',
+            type: 'string',
+            defaultValue: undefined,
+            makeHandler: function(key, item){
+                return function(){
+                    Ext.ux.mattgoldspink.subsonic.UserPrefsStore.set('u',undefined);
+                    Ext.ux.mattgoldspink.subsonic.UserPrefsStore.set('p',undefined);
+                    Ext.ux.mattgoldspink.subsonic.UserPrefsStore.set('subsonic-api-url',undefined);
+                    window.location.reload();
+                };
+            }
+        },
         'subsonic-api-url': {
             text: "Subsonic instance url",
 			description: "Please enter the url for your subsonic instance",
