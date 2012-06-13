@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <script type="text/javascript">
+
+        var theTab = null;
+
+        chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+            // See if the main application page is open.
+            var view;
+            var column;
+            var listURL = request.url;
+            var slug;
+            var user;
+            var columnMeta = {};
+            var views = chrome.extension.getViews();
+            var accounts;
+            var i;
+            var j;
+
+            var urlParts = listURL.split("/");
+            user = urlParts[urlParts.length - 2];
+            slug = urlParts[urlParts.length - 1];
+
+            columnMeta["screenName"] = user;
+            columnMeta["slug"] = slug;
+
+            for (var i=0; i<views.length; i++) {
+                // We can actually only have one view at the moment, but just check anyway
+                view = views[i];
+                if (view.location.href.indexOf("index.html") != -1) {
+                    accounts = view.TD.storage.store.accountStore.getAll();
+                    for (j=0; j<accounts.length; j++) {
+                        if (accounts[j].type == "twitter") {
+                            column = view.TD.storage.store.columnStore.makeColumnAndFeed(
+                                user + "/" + slug, "list", "twitter", accounts[j].key, columnMeta);
+                            view.TD.ui.columns.addColumnToUI(column);
+                            break;
+                        };
+                    }
+                };
+            };
+            sendResponse({});
+        });
+
+
+        function handlePageChange(tab) {
+            if (tab.url == chrome.extension.getURL('index.html')) {
+                if (!this.theTab) {
+                    // This is the first TweetDeck tab, make a note of its details
+                    console.log('subtunes page created');
+                    this.theTab = tab
+                } else if (tab.id != this.theTab.id){
+                    console.log('Duplicate subtunes page');
+                    // User is attempting to make a duplicate view, remove the new tab...
+                    chrome.tabs.remove(tab.id);
+                    // ... and select the original tab
+                    chrome.tabs.update(this.theTab.id, {selected :  true});
+                }
+            } else if (this.theTab && tab.id == this.theTab.id) {
+                // User has navigated away
+                handlePageDeath(tab.id);
+            }
+        }
+
+        function handlePageDeath(tabID) {
+            if (this.theTab && tabID == this.theTab.id) {
+                console.log('subtunes page closed');
+
+                // The TweetDeck tab was closed
+                this.theTab = null;
+
+                // Stop the StreamEngines
+                for (var key in streamEngines) {
+                    streamEngines[key].stop();
+                    delete streamEngines[key];
+                }
+            }
+        }
+
+        chrome.tabs.onCreated.addListener(function(tab) {
+            handlePageChange(tab);
+        });
+
+        chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab) {
+            if (changeInfo.url) {
+                handlePageChange(tab);
+            }
+        });
+
+        chrome.tabs.onRemoved.addListener(function(tabID) {
+            handlePageDeath(tabID);
+        });
+
+    </script>
+</html>
