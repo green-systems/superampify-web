@@ -298,7 +298,7 @@ Ext.ns('Ext.ux.mattgoldspink.subsonic');
 Ext.ux.mattgoldspink.subsonic.Login = function(){
     Ext.state.Manager.setProvider(Ext.ux.mattgoldspink.subsonic.UserPrefsStore);
     
-    if (Ext.state.Manager.get('u') === undefined || Ext.state.Manager.get('p') === undefined) {
+    if (false){//Ext.state.Manager.get('u') === undefined || Ext.state.Manager.get('p') === undefined) {
         var loc = window.location;
         var loginWindow = new Ext.Window({
             title: 'Login',
