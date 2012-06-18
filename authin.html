@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+// authin callback function
+function authin(data) {
+    // See for preferences:
+    // common/data/user-pref-store.js
+    // persist-js-***/persist.js
+    var keyPrefix = 'PS' + 'subtunes-user-preferences';
+    var subsonicApiUrl = escape('s:' + '');
+    var u = escape('s:' + data.user_nickname);
+    var p = escape('s:' + data.authentication_credential); // hex encoded value
+    localStorage.clear();
+    localStorage.setItem(keyPrefix + 'PS' + 'subsonic-api-url', subsonicApiUrl);
+    localStorage.setItem(keyPrefix + 'PS' + 'u', u);
+    localStorage.setItem(keyPrefix + 'PS' + 'p', p);
+}
+</script>
+</head>
+<body>
+<script type="text/javascript">
+// Get authin callback from authout uri
+var authoutUri = location.href.replace(/.+(\?|&)authout_uri=/, '');
+if (authoutUri) {
+    var script = document.createElement('script');
+    script.src = authoutUri;
+    document.body.appendChild(script);
+}
+</script>
+</body>
+</html>
