@@ -41,15 +41,10 @@ Ext.ux.state.PersistStateProvider = Ext.extend(Ext.state.Provider, {
         }
     },
     set: function(name, value) {
-        if (value === null) {
+        if (typeof value == "undefined" || value === null) {
             return;
         }
-        if (typeof value === "undefined"){
-            // Allow undefined values (to clear keys?)
-            var val = undefined;
-        } else {
-            var val = this.encodeValue(value);    
-        }
+        var val = this.encodeValue(value);
         this.store.set(name, val);
         this.fireEvent("statechange", this, name, value);
     },
@@ -68,29 +63,12 @@ Ext.ux.state.PersistStateProvider = Ext.extend(Ext.state.Provider, {
     clear: function(name) {
         this.store.remove(name);
         this.fireEvent("statechange", this, name, null);
-    },
-    debug: function(){
-        console.dir(this.store);
     }
 });
 
 Ext.ux.mattgoldspink.subsonic.UserPrefsStore =  new Ext.ux.state.PersistStateProvider({
     name: 'subtunes-user-preferences',
     defaults: {
-        'subsonic-clear-settings': {
-            text: 'Clear all settings',
-            description: 'Do you want to clear all your settings?',
-            type: 'string',
-            defaultValue: undefined,
-            makeHandler: function(key, item){
-                return function(){
-                    Ext.ux.mattgoldspink.subsonic.UserPrefsStore.set('u',undefined);
-                    Ext.ux.mattgoldspink.subsonic.UserPrefsStore.set('p',undefined);
-                    Ext.ux.mattgoldspink.subsonic.UserPrefsStore.set('subsonic-api-url',undefined);
-                    window.location.reload();
-                };
-            }
-        },
         'subsonic-api-url': {
             text: "Subsonic instance url",
 			description: "Please enter the url for your subsonic instance",
@@ -298,7 +276,7 @@ Ext.ns('Ext.ux.mattgoldspink.subsonic');
 Ext.ux.mattgoldspink.subsonic.Login = function(){
     Ext.state.Manager.setProvider(Ext.ux.mattgoldspink.subsonic.UserPrefsStore);
     
-    if (false){//Ext.state.Manager.get('u') === undefined || Ext.state.Manager.get('p') === undefined) {
+    if (Ext.state.Manager.get('u') === undefined || Ext.state.Manager.get('p') === undefined) {
         var loc = window.location;
         var loginWindow = new Ext.Window({
             title: 'Login',

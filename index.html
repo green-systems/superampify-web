@@ -1,9 +1,3 @@
-<?php 
-  session_start();
-  if (!isset($_SESSION['handshake'])): ?>
-  Session not set!<?php die; ?>
-<?php endif; ?>
-
 <!DOCTYPE html> 
 <html xmlns="http://www.w3.org/1999/xhtml"> 
 	<head> 
@@ -11,8 +5,11 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<script src="persist-js-0.1.0/persist.js" type="text/javascript"></script>
 		<script>
-            var handshake = "<?php echo $_SESSION['handshake']; ?>";
-            var mode = "debug";
+            if (window.location.hash === "")
+              var mode = 'not-debug';
+            else
+              var mode = window.location.hash.substring(1);
+
             var extjsVersion = "3.3.1", soundmanagerVersion = "v297a-20110123", senchaTouchVersion = "1.0.1";
             (function(){            
                   var os, desktopCss, desktopJs, detect;
@@ -69,10 +66,7 @@
             Ext.ux.mattgoldspink.subsonic.LoginDetails = {
                     c: 'subsonicext',
                     v: '1.4.0',
-                    f: 'json',
-                    u: 'false',
-                    p: 'false',
-                    handshake: handshake
+                    f: 'json'
             };
 			window.subtunes.userPrefsStore.initExt();
             document.writeln('<scr'+'ipt src="' + window.subtunes.rootUrl + window.subtunes.mode + '/subsonic-autodetect.js" type="text/javascript"></scr'+'ipt>');
