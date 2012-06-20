@@ -1,6 +1,6 @@
 /*global window: false*/
 (function(w) {
-	if (mode === 'debug')
+	if (mode === 'deminified')
     	var js = ['common/subtunes-0.9.4.js','desktop/subtunes-0.9.4.js'];
     else
     	var js = ['common/subtunes-0.9.4.min.js','desktop/subtunes-0.9.4.min.js'];
