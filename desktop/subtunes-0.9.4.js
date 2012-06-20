@@ -69,17 +69,6 @@ Ext.ux.state.PersistStateProvider = Ext.extend(Ext.state.Provider, {
 Ext.ux.mattgoldspink.subsonic.UserPrefsStore =  new Ext.ux.state.PersistStateProvider({
     name: 'subtunes-user-preferences',
     defaults: {
-        'subsonic-api-url': {
-            text: "Subsonic instance url",
-			description: "Please enter the url for your subsonic instance",
-            type: "string",
-            defaultValue: undefined,
-			makeHandler: function(key, item){
-				return function() {
-					window.subtunes.makeRequest(window, [], Ext.apply({}, Ext.ux.mattgoldspink.subsonic.LoginDetails), 0);
-				};
-			}
-        },
         'track-grid-batch-size': {
             text: "Track grid batch load size",
 			description: "Tweak this value to load rows into the track grids (default 50)",
@@ -396,13 +385,6 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
                 iconCls: 'x-status-valid',
                 statusAlign: 'right',
                 items: [
-					{
-						iconCls: 'createPlaylist',
-						cls: 'left createPlaylist',
-						enableToggle: false,
-						handler: this.addNewPlaylist,
-						scope: this
-					},
                     {
                         iconCls: 'shuffle',
 						cls: 'left shuffle',
@@ -1826,15 +1808,7 @@ Ext.ux.mattgoldspink.subsonic.FolderTreePanel = Ext.extend(Ext.tree.TreePanel, {
                     nodeType: 'async',
                     nextUrl: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getMusicFolders.view',
                     nextRoot: 'musicFolders.musicFolder'
-                },
-                {
-                    text: 'Playlists',
-                    id: 'playlists',
-                    cls: 'playlist-node',    
-                    nodeType: 'async',
-                    nextUrl: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getPlaylists.view',
-                    nextRoot: 'playlists.playlist'
-                 }
+                }
              ]
         };
     },
