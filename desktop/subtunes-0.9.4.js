@@ -1466,7 +1466,7 @@ Ext.ux.mattgoldspink.subsonic.PlayerPanel = Ext.extend(Ext.Panel, {
     constructor: function(config) {
         Ext.apply(this, config,
             {
-                title: 'Superampify',
+                title: '&nbsp;',
                 plugins: ['msgbus'],
                 bodyCssClass: 'subsonic-player',
                 cls: 'subsonic-player',
