@@ -1603,12 +1603,6 @@ Ext.ux.mattgoldspink.subsonic.PlayerPanel = Ext.extend(Ext.Panel, {
                     pressed: true,
                     cls: 'albumview',
                     stateId: 'albumview'
-                },
-                {
-                    iconCls: 'coverflow',
-                    pressed: false,
-                    cls: 'coverflow',
-                    stateId: 'coverflow'
                 }
             ]
         };
@@ -1975,9 +1969,6 @@ Ext.onReady(function(){
                     }),
                     new Ext.ux.mattgoldspink.subsonic.FolderView({
                         id: 'albumview'            
-                    }),
-                    new Ext.ux.mattgoldspink.subsonic.CoverFlow({
-                        id: 'coverflow'        
                     })
                 ],
                 listeners: {
