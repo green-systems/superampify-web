@@ -412,26 +412,6 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
         });
         Ext.ux.mattgoldspink.subsonic.BottomBar.superclass.constructor.apply(this, arguments);
         this.setupSubscriptions();
-        this.checkForUpdates();
-    },
-    checkForUpdates: function(){
-        window.callbackversion = function(data){
-            var current = Ext.ux.mattgoldspink.subsonic.subTunesVersion;
-            if (data.version === '{VER'+''+'SION}' || data.version === current) {
-                return;
-            }
-            if (Ext.ux.mattgoldspink.subsonic.isVersionGreaterThan(current, data.version)){
-                return;
-            }
-            Ext.getCmp('bottombar').defaultText = 'subTunes ' + data.version + ' is available! <a target="_blank" href="' + data.url + '">Click here to get it</a>';
-        };
-        $.ajax({
-            dataType: 'jsonp',
-            url: "http://subtunes.googlecode.com/files/version.js?callback=callbackversion",
-            success: function(){ 
-              // do nothing - above function handles it instead  
-            }
-        });
     },
     launchAbout: function(){
         new Ext.ux.mattgoldspink.subsonic.NewVersionWindow({}).show();
