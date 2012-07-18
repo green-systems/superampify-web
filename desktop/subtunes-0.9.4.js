@@ -706,9 +706,7 @@ Ext.ux.mattgoldspink.subsonic.TrackGrid = Ext.extend(Ext.grid.GridPanel, {
 				{header: 'Name', width: 225, sortable: true, dataIndex: 'title'},
 				{header: 'Time', width: 75, sortable: true, dataIndex: 'duration', renderer: Ext.ux.mattgoldspink.subsonic.Util.renderTime},
 				{header: 'Artist', width: 225, sortable: true, dataIndex: 'artist'},
-				{header: 'Album', width: 225, sortable: true,  dataIndex: 'album'},
-				{header: 'Genre', width: 225, sortable: true,  dataIndex: 'genre'},
-				{header: 'Year', width: 85, sortable: true,  dataIndex: 'year'}
+				{header: 'Album', width: 225, sortable: true,  dataIndex: 'album'}
 			],
 			stripeRows: true,
 			cls: 'tracklist-grid',
