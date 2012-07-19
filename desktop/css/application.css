@@ -128,9 +128,10 @@
 
 #sm2-container {
   position: relative;
-  width: 1px;
-  height: 1px;
+  width: 2px;
+  height: 2px;
   _overflow: hidden;
+  overflow: hidden;
 }
 #sm2-container object, #sm2-container embed {
   position: absolute;
@@ -142,8 +143,8 @@
   height: 48px;
 }
 #sm2-container.swf_unblocked {
-  width: 1px;
-  height: 1px;
+  width: 2px;
+  height: 2px;
 }
 #sm2-container.swf_unblocked object, #sm2-container.swf_unblocked embed {
   left: -9999em;

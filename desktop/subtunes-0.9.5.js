@@ -1125,8 +1125,13 @@ Ext.apply(Ext.ux.mattgoldspink.subsonic.controllers.Player.prototype, {
                 onfinish: this.handleOnFinish,
                 onstop: this.handleOnStop,
                 whileplaying: this.handleWhilePlaying,
-                volume: this.volume
+                volume: this.volume,
+                stream: false,
+                whileloading: function(){
+                    console.log("loading "+this.bytesLoaded+" of "+this.bytesTotal);
+                }
             });
+            console.dir(sound);
             if (index === startAtTrack){
                 this.currentTrackId = 'music' + id;
             }
