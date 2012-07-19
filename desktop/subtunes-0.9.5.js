@@ -1125,13 +1125,8 @@ Ext.apply(Ext.ux.mattgoldspink.subsonic.controllers.Player.prototype, {
                 onfinish: this.handleOnFinish,
                 onstop: this.handleOnStop,
                 whileplaying: this.handleWhilePlaying,
-                volume: this.volume,
-                stream: false,
-                whileloading: function(){
-                    console.log("loading "+this.bytesLoaded+" of "+this.bytesTotal);
-                }
+                volume: this.volume
             });
-            console.dir(sound);
             if (index === startAtTrack){
                 this.currentTrackId = 'music' + id;
             }
@@ -1149,7 +1144,13 @@ Ext.apply(Ext.ux.mattgoldspink.subsonic.controllers.Player.prototype, {
         this.currentPlaylist = [];
     },
     skipInto: function(subject, position) {
-        soundManager.setPosition(this.currentTrackId, position * 1000);
+        var csound = soundManager.getSoundById(this.currentTrackId);
+        if (csound.durationEstimate > csound.duration){
+            d = csound.durationEstimate
+        } else {
+            d = csound.duration;
+        }
+        soundManager.setPosition(this.currentTrackId, d * position / 100);
     },
     resumeCurrent: function(){
         if (Ext.isDefined(this.currentTrackId) && Ext.isDefined(this.currentPlaylist)){
