@@ -661,7 +661,7 @@ Ext.ux.mattgoldspink.subsonic.SelectedItem = new Ext.Panel({
 Ext.TaskMgr.start({
     run: Ext.ux.mattgoldspink.subsonic.FolderTracksStore.processPendingRecords,
     scope: Ext.ux.mattgoldspink.subsonic.FolderTracksStore,
-    interval: 2000 //5 second
+    interval: 1000
 });
 /*
  * #depends web-worker-folder-store.js
