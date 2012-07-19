@@ -786,8 +786,9 @@ Ext.ux.mattgoldspink.subsonic.TrackGrid = Ext.extend(Ext.grid.GridPanel, {
 /*
  * #depends subsonic-login.js
  */
- 
-Ext.ux.mattgoldspink.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
+
+Ext.ns('Ext.ux.eskerda.subsonic');
+Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
     constructor: function(config){
         Ext.apply(config, {
             url: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getMusicFolders.view',
@@ -799,90 +800,99 @@ Ext.ux.mattgoldspink.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
                 scope: this
             }
         });
-        Ext.ux.mattgoldspink.subsonic.FolderLoader.superclass.constructor.apply(this, arguments);
+        Ext.ux.eskerda.subsonic.FolderLoader.superclass.constructor.apply(this, arguments);
     },
     handleBeforeLoad: function(treeloader, node, callback){
-        treeloader.url = node.attributes.nextUrl;
-        treeloader.root = node.attributes.nextRoot;
-        if (node.attributes.nextRoot === 'indexes.index'){
-            treeloader.baseParams.musicFolderId = node.id;
-        }
+        if (node.attributes.nextUrl !== undefined)
+            this.url = node.attributes.nextUrl;
     },
     // private override
     processResponse : function(response, node, callback, scope){
-        try {
-        var paths = this.root.split('.');
-        for (var i = 0; i < paths.length; i++) {
-            response.responseData = response.responseData[paths[i]];
-        }
-        if (!Ext.isArray(response.responseData)){
-            response.responseData = [response.responseData];
-        }
-        } catch (e) {}
-        Ext.ux.mattgoldspink.subsonic.FolderLoader.superclass.processResponse.apply(this, arguments);
-    },
-    setupNode: function(node, nextUrl, nextRoot, loaded, expanded, iconCls, text, leaf){
-        return Ext.apply(node, {
-            nextUrl: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/' + nextUrl + '.view',
-            nextRoot: nextRoot,
-            loaded: loaded,
-            expanded: expanded,
-            iconCls: iconCls,
-            text: text,
-			id: (node.id === 0 ? ""+node.id +"" : node.id), // hack fix to workaround autoid being assigned if the id = 0 (i.e. false in js)
-            leaf: (Ext.isDefined(leaf)? leaf: false)
-        });
-    },
-    handleIndexNode: function(attr) {
-        this.setupNode(attr, undefined, undefined, true, Ext.ux.mattgoldspink.subsonic.UserPrefsStore.get('auto-expand-indexes', true), 'folder', attr.name);
-        if (!Ext.isArray(attr.artist)) {
-            attr.artist = [attr.artist];
-        }
-        var index = Ext.ux.mattgoldspink.subsonic.FolderLoader.superclass.createNode.call(this, attr);
-        for (var i = 0 ; i < attr.artist.length; i++) {
-            index.appendChild(this.createArtistNode(attr.artist[i]));
-        }
-        return index;
-    },
-    createArtistNode: function(attr) {
-        attr.title = attr.name;
-        this.handleDirectory(attr);
-        return Ext.ux.mattgoldspink.subsonic.FolderLoader.superclass.createNode.call(this, attr);
-    },
-    handleMusicFolder: function(attr){
-        this.setupNode(attr, 'getIndexes', 'indexes.index', false, false, 'music', attr.name);
-    },
-    handlePlaylist: function(attr) {
-        this.setupNode(attr, undefined, undefined, true, false, 'playlist', attr.name, true);
-        attr.playlist = true;
-        attr.subject = 'subsonic.folder.click';
-    },
-    handleDirectory: function(attr){
-        this.setupNode(attr, 'getMusicDirectory', 'directory.child', false, false, 'ipod', attr.title);
-        attr.subject = 'subsonic.folder.click';
-    },
-    handleMusicTrack: function(attr) {
-        this.setupNode(attr, undefined, undefined, false, false, 'music', attr.title, true);
-        attr.subject = 'subsonic.track.play';
+        switch(this.url){
+            case "/rest/getMusicFolders.view":
+                var data = response.responseData.musicFolders.musicFolder;
+                if ( Object.prototype.toString.call( data ) !== '[object Array]'){
+                    data = [ data ];
+                }
+                response.responseData = [];
+                for (var i = 0 ; i < data.length; i++){
+                    response.responseData.push({
+                        id: data[i].id,
+                        text: data[i].name,
+                        leaf: false,
+                        iconCls: 'music',
+                        nextUrl: '/rest/getIndexes.view',
+                        nextData: 'artist',
+                        subject: 'subsonic.folder.click'
+                    });
+                }
+                break;
+            case "/rest/getIndexes.view":
+                var artists = [];
+                for (var i = 0; i < response.responseData.indexes.index.length; i++){
+                    idx = response.responseData.indexes.index[i];
+                    for (var j = 0 ; j < idx.artist.length; j++){
+                        var artist = idx.artist[j];
+                        artists.push(artist);
+                    }
+                }
+                response.responseData = [];
+                for (var a = 0; a < artists.length; a++){
+                    response.responseData.push({
+                        id: artists[a].id,
+                        text: artists[a].name,
+                        leaf: false,
+                        iconCls: 'ipod',
+                        nextUrl: '/rest/getMusicDirectory.view',
+                        nextData: 'album',
+                        subject: 'subsonic.folder.click'
+                    })
+                }
+                break;
+            case "/rest/getMusicDirectory.view":
+                if (node.attributes.nextData == 'album'){
+                    var albums = response.responseData.directory.child;
+                    response.responseData = [];
+                    for (var a = 0; a < albums.length; a++){
+                        response.responseData.push({
+                            id: albums[a].id,
+                            text: albums[a].title,
+                            leaf: false,
+                            iconCls: 'ipod',
+                            nextUrl: '/rest/getMusicDirectory.view',
+                            nextData: 'song',
+                            subject: 'subsonic.folder.click'
+                        });
+                    }
+                } else {
+                    // these are songs..
+                    var songs = response.responseData.directory.child;
+                    response.responseData = [];
+                    for (var s = 0; s < songs.length; s++){
+                        response.responseData.push({
+                            id: songs[s].id,
+                            text: songs[s].title,
+                            leaf: true,
+                            iconCls: 'music',
+                            subject: 'subsonic.track.play'
+                        });
+                    }
+                }
+                break;
+            default:
+                console.log("-- Unset node case --");
+                console.log(this.url);
+                console.dir(response);
+                break;
+        };
+        Ext.ux.eskerda.subsonic.FolderLoader.superclass.processResponse.apply(this, arguments);
     },
     createNode : function(attr){
         var me = this;
-        if (me.root === 'indexes.index') {
-            return me.handleIndexNode(attr);
-        } else if (me.root === 'musicFolders.musicFolder'){
-            me.handleMusicFolder(attr);
-        } else if (me.root ===  'playlists.playlist') {
-            me.handlePlaylist(attr);
-        } else if (me.root === 'directory.child') {
-            if (attr.isDir) {
-                me.handleDirectory(attr);
-            } else {
-                me.handleMusicTrack(attr);
-            }
-        }
-        return Ext.ux.mattgoldspink.subsonic.FolderLoader.superclass.createNode.call(me, attr);
+        return Ext.ux.eskerda.subsonic.FolderLoader.superclass.createNode.call(me, attr);
      }
 });
+
 /*
  * #depends subsonic-login.js
  */
@@ -1706,9 +1716,11 @@ Ext.ux.mattgoldspink.subsonic.FolderView = Ext.extend(Ext.Panel, {
         }
     }   
 });
+
 /*
  * #depends tree-loader.js
  */
+
 Ext.ns('Ext.ux.mattgoldspink.subsonic');        
 Ext.ux.mattgoldspink.subsonic.FolderTreePanel = Ext.extend(Ext.tree.TreePanel, {
     constructor: function(config){
@@ -1718,7 +1730,7 @@ Ext.ux.mattgoldspink.subsonic.FolderTreePanel = Ext.extend(Ext.tree.TreePanel, {
             rootVisible: false,
             root: this.makeInitialRoot(),
             // Our custom TreeLoader:
-            loader: new Ext.ux.mattgoldspink.subsonic.FolderLoader({}),
+            loader: new Ext.ux.eskerda.subsonic.FolderLoader({}),
 			enableDrop: true,
 			ddGroup: 'grid2tree',
 			ddScroll: true
@@ -1834,6 +1846,7 @@ Ext.ux.mattgoldspink.subsonic.FolderTreePanel = Ext.extend(Ext.tree.TreePanel, {
         }
     }
 });
+
 /*global ImageFlow: false, window: false*/
 /*
  * #depends subsonic-trackgrid.js
