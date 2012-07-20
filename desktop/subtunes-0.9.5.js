@@ -414,10 +414,7 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
                             window.open('https://play.google.com/store/apps/details?id=com.runners_id.android.superampify', '_blank');
                         },
                         style: {
-                            width: '100%',
-                            position: 'absolute',
-                            right: '90px',
-                            top: '1px'
+                            marginLeft: '5px'
                         }
                     },
                 ]
