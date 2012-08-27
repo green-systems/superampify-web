@@ -798,8 +798,8 @@ Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
     },
     // private override
     processResponse : function(response, node, callback, scope){
-        switch(this.url){
-            case "/rest/getMusicFolders.view":
+        switch(this.url.substr(this.url.lastIndexOf('/')+1)){
+            case "getMusicFolders.view":
                 var data = response.responseData.musicFolders.musicFolder;
                 if ( Object.prototype.toString.call( data ) !== '[object Array]'){
                     data = [ data ];
@@ -817,7 +817,7 @@ Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
                     });
                 }
                 break;
-            case "/rest/getIndexes.view":
+            case "getIndexes.view":
                 var artists = [];
                 for (var i = 0; i < response.responseData.indexes.index.length; i++){
                     idx = response.responseData.indexes.index[i];
@@ -839,7 +839,7 @@ Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
                     })
                 }
                 break;
-            case "/rest/getMusicDirectory.view":
+            case "getMusicDirectory.view":
                 if (node.attributes.nextData == 'album'){
                     var albums = response.responseData.directory.child;
                     response.responseData = [];
