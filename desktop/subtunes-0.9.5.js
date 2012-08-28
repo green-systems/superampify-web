@@ -811,7 +811,7 @@ Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
                         text: data[i].name,
                         leaf: false,
                         iconCls: 'music',
-                        nextUrl: '/rest/getIndexes.view',
+                        nextUrl: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getIndexes.view',
                         nextData: 'artist',
                         subject: 'subsonic.folder.click'
                     });
@@ -833,7 +833,7 @@ Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
                         text: artists[a].name,
                         leaf: false,
                         iconCls: 'ipod',
-                        nextUrl: '/rest/getMusicDirectory.view',
+                        nextUrl: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getMusicDirectory.view',
                         nextData: 'album',
                         subject: 'subsonic.folder.click'
                     })
@@ -849,7 +849,7 @@ Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
                             text: albums[a].title,
                             leaf: false,
                             iconCls: 'ipod',
-                            nextUrl: '/rest/getMusicDirectory.view',
+                            nextUrl: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getMusicDirectory.view',
                             nextData: 'song',
                             subject: 'subsonic.folder.click'
                         });
