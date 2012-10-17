@@ -1,9 +1,9 @@
 /*global window: false*/
 (function(w) {
 	if (mode === 'deminified')
-    	var js = ['common/subtunes-0.9.4.js','desktop/subtunes-0.9.4.js?1'];
+    	var js = ['common/subtunes-0.9.5.js','desktop/subtunes-0.9.5.js'];
     else
-    	var js = ['common/subtunes-0.9.4.min.js','desktop/subtunes-0.9.4.min.js'];
+    	var js = ['common/subtunes-0.9.5.min.js','desktop/subtunes-0.9.5.min.js'];
         
     w.subtunes.overrideDefaultExtHandlersOnConnection = function() {
 		if (!Ext.isDefined(Ext.data.Connection.prototype._handleFailure)) {

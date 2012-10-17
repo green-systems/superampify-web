@@ -11,7 +11,6 @@ function authin(data) {
     var subsonicApiUrl = escape('s:' + '');
     var u = escape('s:' + data.user_nickname);
     var p = escape('s:' + data.authentication_credential); // hex encoded value
-    localStorage.clear();
     localStorage.setItem(keyPrefix + 'PS' + 'subsonic-api-url', subsonicApiUrl);
     localStorage.setItem(keyPrefix + 'PS' + 'u', u);
     localStorage.setItem(keyPrefix + 'PS' + 'p', p);

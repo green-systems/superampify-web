@@ -400,13 +400,23 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
 						scope: this
                     },
                     {
+                        iconCls: 'cfg',
+                        menu: this.makeSettingsMenu()
+                    },
+                    {
                         text: 'About',
                         handler: this.launchAbout
                     },
                     {
-                        iconCls: 'cfg',
-                        menu: this.makeSettingsMenu()
-                    }
+                        text: 'Get Superampify for Android',
+                        iconCls: 'android',
+                        handler: function(){
+                            window.open('https://play.google.com/store/apps/details?id=com.runners_id.android.superampify', '_blank');
+                        },
+                        style: {
+                            marginLeft: '5px'
+                        }
+                    },
                 ]
             })
         });
@@ -661,7 +671,7 @@ Ext.ux.mattgoldspink.subsonic.SelectedItem = new Ext.Panel({
 Ext.TaskMgr.start({
     run: Ext.ux.mattgoldspink.subsonic.FolderTracksStore.processPendingRecords,
     scope: Ext.ux.mattgoldspink.subsonic.FolderTracksStore,
-    interval: 2000 //5 second
+    interval: 1000
 });
 /*
  * #depends web-worker-folder-store.js
@@ -788,8 +798,8 @@ Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
     },
     // private override
     processResponse : function(response, node, callback, scope){
-        switch(this.url){
-            case "/rest/getMusicFolders.view":
+        switch(this.url.substr(this.url.lastIndexOf('/')+1)){
+            case "getMusicFolders.view":
                 var data = response.responseData.musicFolders.musicFolder;
                 if ( Object.prototype.toString.call( data ) !== '[object Array]'){
                     data = [ data ];
@@ -801,13 +811,13 @@ Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
                         text: data[i].name,
                         leaf: false,
                         iconCls: 'music',
-                        nextUrl: '/rest/getIndexes.view',
+                        nextUrl: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getIndexes.view',
                         nextData: 'artist',
                         subject: 'subsonic.folder.click'
                     });
                 }
                 break;
-            case "/rest/getIndexes.view":
+            case "getIndexes.view":
                 var artists = [];
                 for (var i = 0; i < response.responseData.indexes.index.length; i++){
                     idx = response.responseData.indexes.index[i];
@@ -823,13 +833,13 @@ Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
                         text: artists[a].name,
                         leaf: false,
                         iconCls: 'ipod',
-                        nextUrl: '/rest/getMusicDirectory.view',
+                        nextUrl: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getMusicDirectory.view',
                         nextData: 'album',
                         subject: 'subsonic.folder.click'
                     })
                 }
                 break;
-            case "/rest/getMusicDirectory.view":
+            case "getMusicDirectory.view":
                 if (node.attributes.nextData == 'album'){
                     var albums = response.responseData.directory.child;
                     response.responseData = [];
@@ -839,7 +849,7 @@ Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
                             text: albums[a].title,
                             leaf: false,
                             iconCls: 'ipod',
-                            nextUrl: '/rest/getMusicDirectory.view',
+                            nextUrl: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getMusicDirectory.view',
                             nextData: 'song',
                             subject: 'subsonic.folder.click'
                         });
@@ -1144,7 +1154,13 @@ Ext.apply(Ext.ux.mattgoldspink.subsonic.controllers.Player.prototype, {
         this.currentPlaylist = [];
     },
     skipInto: function(subject, position) {
-        soundManager.setPosition(this.currentTrackId, position * 1000);
+        var csound = soundManager.getSoundById(this.currentTrackId);
+        if (csound.durationEstimate > csound.duration){
+            d = csound.durationEstimate
+        } else {
+            d = csound.duration;
+        }
+        soundManager.setPosition(this.currentTrackId, d * position / 100);
     },
     resumeCurrent: function(){
         if (Ext.isDefined(this.currentTrackId) && Ext.isDefined(this.currentPlaylist)){
