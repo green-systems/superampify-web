@@ -14,7 +14,28 @@
     };
 	
 	Persist.Store.prototype.initSoundManager = function(){
-		soundManager.useHTML5Audio = (window.subtunes.mode === 'touch'? true : this.getWithDefault('use-html5-audio', false));
+        var forceUseHtml5ForMp3 = (window.subtunes.mode === 'touch' ? true : this.getWithDefault('force-use-html5-for-mp3', false));
+        soundManager.setup({
+            consoleOnly: true,
+            useHTML5Audio: forceUseHtml5ForMp3,
+            useFlashBlock: (window.subtunes.mode !== 'touch'),
+            debugMode: false,
+            wmode: 'transparent',
+            flashVersion: 9,
+            html5Test: '/^probably$/i',
+            flashPollingInterval: 10, // msec affecting whileplaying/loading callback frequency. If null, default of 50 msec is used.
+            html5PollingInterval: null,
+            useHighPerformance: true,
+            onready: function(){
+                if (!soundManager.supported()) {
+                   alert('Something went wrong whilst setting up sound. Do you have flashblock enabled?');
+                }
+            },
+            ontimeout: function(){
+                alert('Something went wrong whilst setting up sound. Do you have flashblock enabled?');
+            }
+        });
+		/*soundManager.useHTML5Audio = (window.subtunes.mode === 'touch'? true : this.getWithDefault('use-html5-audio', false));
 		soundManager.debugMode = false;
 		soundManager.consoleOnly = true;
 		var forceUseHtml5ForMp3 = (window.subtunes.mode === 'touch' ? true : this.getWithDefault('force-use-html5-for-mp3', false));
@@ -24,7 +45,7 @@
 			if (!soundManager.supported()) {
 				alert('Something went wrong whilst setting up sound. Do you have flashblock enabled?');
 			}
-		});
+		});*/
 	};
 	
 	Persist.Store.prototype.initExt = function(){
