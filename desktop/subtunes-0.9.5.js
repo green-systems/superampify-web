@@ -1798,7 +1798,10 @@ Ext.ux.mattgoldspink.subsonic.FolderTreePanel = Ext.extend(Ext.tree.TreePanel, {
 		playlistNode.expand(false, true, function() {
 			var newNode = playlistNode.appendChild({
 				name: 'untitled playlist',
-				notYetCreated: true
+				notYetCreated: true,
+				playlist: true,
+				leaf: true,
+				iconCls: 'playlist'
 			});
 			newNode.select();
 			this.editor.triggerEdit(newNode);
