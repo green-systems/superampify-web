@@ -385,6 +385,13 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
                 iconCls: 'x-status-valid',
                 statusAlign: 'right',
                 items: [
+					{
+						iconCls: 'createPlaylist',
+						cls: 'left createPlaylist',
+						enableToggle: false,
+						handler: this.addNewPlaylist,
+						scope: this
+					},
                     {
                         iconCls: 'shuffle',
 						cls: 'left shuffle',
@@ -867,6 +874,23 @@ Ext.ux.eskerda.subsonic.FolderLoader = Ext.extend(Ext.tree.TreeLoader, {
                             subject: 'subsonic.track.play'
                         });
                     }
+                }
+                break;
+
+            case "getPlaylists.view":
+                var playlists = response.responseData.playlists.playlist;
+                response.responseData = [];
+                for (var p = 0; p < playlists.length; p++){
+                    response.responseData.push({
+                        id: playlists[p].id,
+                        text: playlists[p].name,
+                        leaf: true,
+                        iconCls: 'playlist',
+                        playlist: true,
+                        subject: 'subsonic.folder.click',
+                        expanded: false,
+                        loaded: true
+                    });
                 }
                 break;
             default:
@@ -1808,7 +1832,15 @@ Ext.ux.mattgoldspink.subsonic.FolderTreePanel = Ext.extend(Ext.tree.TreePanel, {
                     nodeType: 'async',
                     nextUrl: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getMusicFolders.view',
                     nextRoot: 'musicFolders.musicFolder'
-                }
+                },
+                {
+                    text: 'Playlists',
+                    id: 'playlists',
+                    cls: 'playlist-node',    
+                    nodeType: 'async',
+                    nextUrl: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getPlaylists.view',
+                    nextRoot: 'playlists.playlist'
+                 }
              ]
         };
     },
