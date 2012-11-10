@@ -643,6 +643,7 @@ div.library-node img, div.playlist-node img.x-tree-node-icon, li.x-tree-node .pl
 
 .bottombar {
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAYCAYAAADH2bwQAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oMHhM6C6ZcQpwAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAoElEQVQoz4WSQQ4CMQwDkzYvRhz4I/CI5YDE/mCbNuGcQVp6q+U6tlO9XG8pJ0e37VUIvfdCsPdnL0BrVcGaKkUrQTIKkHBkKXrmUWwOrwqSGAGAeuZrFiACCgQCps3HgR4aTGKEBpqEoqysD+zwgRSMGWjyp6i5aopV7zbckQLLilkJofCw/hblKEo6TdYXjSOSMTuq5n6no8nn4376o77SpFbLpaQ3cgAAAABJRU5ErkJggg==') transparent;
+  color: transparent;
 }
 .bottombar .x-panel-body {
   background-color: transparent;

@@ -7,10 +7,10 @@ Ext.ux.mattgoldspink.subsonic.NewVersionWindow = Ext.extend(Ext.Window, {
             plain: true,
             modal: true,
             cls: 'about-window',
-            title: 'Superampify ' + Ext.ux.mattgoldspink.subsonic.subTunesVersion,
+            title: 'subTunes ' + Ext.ux.mattgoldspink.subsonic.subTunesVersion,
             items: [
                 {
-                    html: '<p>Superampify is a customized version of subTunes.</p><p>subTunes is written by <a target="_blank" href="http://www.mattgoldspink.co.uk">Matt Goldspink</a></p><p>It includes contributions from: <ul><li>Josh Knutson (Chrome app)</li></ul><h3>Licence</h3><p>subTunes is licenced under the <a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a>.</p><p>It incorporates the following JS libraries:<ul><li><a target="_blank" href="http://sencha.com/products/js">Ext.js</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://sencha.com/products/touch">Sencha touch</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://www.jquery.org">jQuery</a> (<em><a target="_blank" href="https://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt">GPL</a></em>)</li><li><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2">SoundManager2</a> (<em><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2/docs/resources/#licensing">BSD License</a></em>)</li><li><a target="_blank" href="http://pollenjs.com">hive</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPL v2</a></em>)</li><li><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">ImageFlow</a> (<em><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">Creative Commons Attribution-Noncommericial 3.0 unported licence</a></em>)</li><li><a target="_blank" href="http://pablotron.org/software/persist-js/">PersistJS</a> (<em><a target="_blank" href="http://hg.pablotron.org/persist-js/file/9d17e268a9e0/COPYING">MIT Licence</a></em>)</li></ul><h3>Special Thanks</h3><ul><li>Sindre Mehus - Developer of the excellent <a target="_blank" href="http://www.subsonic.org">Subsonic</a> music streaming software</li><li>Paul Goldsmith - For excellent advice on web worker strategy in subTunes</li></ul>'
+                    html: '<p>subTunes current version can be found under <a href="https://github.com/interstel/subtunes">https://github.com/interstel/subtunes</a>.</p></p>The original version is written by <a target="_blank" href="http://www.mattgoldspink.co.uk">Matt Goldspink</a></p><p>It includes contributions from: <ul><li>Josh Knutson (Chrome app)</li></ul><h3>Licence</h3><p>subTunes is licenced under the <a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a>.</p><p>It incorporates the following JS libraries:<ul><li><a target="_blank" href="http://sencha.com/products/js">Ext.js</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://sencha.com/products/touch">Sencha touch</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://www.jquery.org">jQuery</a> (<em><a target="_blank" href="https://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt">GPL</a></em>)</li><li><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2">SoundManager2</a> (<em><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2/docs/resources/#licensing">BSD License</a></em>)</li><li><a target="_blank" href="http://pollenjs.com">hive</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPL v2</a></em>)</li><li><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">ImageFlow</a> (<em><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">Creative Commons Attribution-Noncommericial 3.0 unported licence</a></em>)</li><li><a target="_blank" href="http://pablotron.org/software/persist-js/">PersistJS</a> (<em><a target="_blank" href="http://hg.pablotron.org/persist-js/file/9d17e268a9e0/COPYING">MIT Licence</a></em>)</li></ul><h3>Special Thanks</h3><ul><li>Sindre Mehus - Developer of the excellent <a target="_blank" href="http://www.subsonic.org">Subsonic</a> music streaming software</li><li>Paul Goldsmith - For excellent advice on web worker strategy in subTunes</li></ul>'
                 }
             ],
             buttons: [{
@@ -379,43 +379,53 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
             plugins: ['msgbus'],
             bbar : new Ext.ux.StatusBar({
 				id: 'bottombar',
-                defaultText: 'subTunes ' + Ext.ux.mattgoldspink.subsonic.subTunesVersion,
+                statusAlign: 'left',
                 text: 'Ready',
                 ref: 'status',
                 iconCls: 'x-status-valid',
-                statusAlign: 'right',
                 items: [
 					{
 						iconCls: 'createPlaylist',
 						cls: 'left createPlaylist',
 						enableToggle: false,
 						handler: this.addNewPlaylist,
-						scope: this
+						scope: this,
+                        style: {
+                            position: 'absolute',
+                            left: '0px',
+                            top: '0px'
+                        }
 					},
                     {
                         iconCls: 'shuffle',
 						cls: 'left shuffle',
 						enableToggle: true,
                         handler: this.handleShuffle,
-						scope: this
+						scope: this,
+                        style: {
+                            position: 'absolute',
+                            left: '30px',
+                            top: '0px'
+                        }
                     },
                     { 
                         iconCls: 'repeat',
 						cls: 'left repeat off',
 						enableToggle: false,
                         handler: this.handleRepeat,
-						scope: this
+						scope: this,
+                        style: {
+                            position: 'absolute',
+                            left: '60px',
+                            top: '0px'
+                        }
                     },
                     {
                         iconCls: 'cfg',
                         menu: this.makeSettingsMenu()
                     },
                     {
-                        text: 'About',
-                        handler: this.launchAbout
-                    },
-                    {
-                        text: 'Get Superampify for Android',
+                        text: 'Get subTunes for Android',
                         iconCls: 'android',
                         handler: function(){
                             window.open('https://play.google.com/store/apps/details?id=com.runners_id.android.superampify', '_blank');
@@ -423,6 +433,10 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
                         style: {
                             marginLeft: '5px'
                         }
+                    },
+                    {
+                        text: 'About subTunes '+Ext.ux.mattgoldspink.subsonic.subTunesVersion,
+                        handler: this.launchAbout
                     },
                 ]
             })
