@@ -7,10 +7,10 @@ Ext.ux.mattgoldspink.subsonic.NewVersionWindow = Ext.extend(Ext.Window, {
             plain: true,
             modal: true,
             cls: 'about-window',
-            title: 'subTunes ' + Ext.ux.mattgoldspink.subsonic.subTunesVersion,
+            title: 'Subtunes ' + Ext.ux.mattgoldspink.subsonic.subTunesVersion,
             items: [
                 {
-                    html: '<p>subTunes current version can be found under <a href="https://github.com/interstel/subtunes">https://github.com/interstel/subtunes</a>.</p></p>The original version is written by <a target="_blank" href="http://www.mattgoldspink.co.uk">Matt Goldspink</a></p><p>It includes contributions from: <ul><li>Josh Knutson (Chrome app)</li></ul><h3>Licence</h3><p>subTunes is licenced under the <a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a>.</p><p>It incorporates the following JS libraries:<ul><li><a target="_blank" href="http://sencha.com/products/js">Ext.js</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://sencha.com/products/touch">Sencha touch</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://www.jquery.org">jQuery</a> (<em><a target="_blank" href="https://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt">GPL</a></em>)</li><li><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2">SoundManager2</a> (<em><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2/docs/resources/#licensing">BSD License</a></em>)</li><li><a target="_blank" href="http://pollenjs.com">hive</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPL v2</a></em>)</li><li><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">ImageFlow</a> (<em><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">Creative Commons Attribution-Noncommericial 3.0 unported licence</a></em>)</li><li><a target="_blank" href="http://pablotron.org/software/persist-js/">PersistJS</a> (<em><a target="_blank" href="http://hg.pablotron.org/persist-js/file/9d17e268a9e0/COPYING">MIT Licence</a></em>)</li></ul><h3>Special Thanks</h3><ul><li>Sindre Mehus - Developer of the excellent <a target="_blank" href="http://www.subsonic.org">Subsonic</a> music streaming software</li><li>Paul Goldsmith - For excellent advice on web worker strategy in subTunes</li></ul>'
+                    html: '<p>Subtunes current version can be found under <a href="https://github.com/interstel/subtunes">https://github.com/interstel/subtunes</a>.</p></p>The original version is written by <a target="_blank" href="http://www.mattgoldspink.co.uk">Matt Goldspink</a></p><p>It includes contributions from: <ul><li>Josh Knutson (Chrome app)</li></ul><h3>Licence</h3><p>Subtunes is licenced under the <a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a>.</p><p>It incorporates the following JS libraries:<ul><li><a target="_blank" href="http://sencha.com/products/js">Ext.js</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://sencha.com/products/touch">Sencha touch</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://www.jquery.org">jQuery</a> (<em><a target="_blank" href="https://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt">GPL</a></em>)</li><li><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2">SoundManager2</a> (<em><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2/docs/resources/#licensing">BSD License</a></em>)</li><li><a target="_blank" href="http://pollenjs.com">hive</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPL v2</a></em>)</li><li><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">ImageFlow</a> (<em><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">Creative Commons Attribution-Noncommericial 3.0 unported licence</a></em>)</li><li><a target="_blank" href="http://pablotron.org/software/persist-js/">PersistJS</a> (<em><a target="_blank" href="http://hg.pablotron.org/persist-js/file/9d17e268a9e0/COPYING">MIT Licence</a></em>)</li></ul><h3>Special Thanks</h3><ul><li>Sindre Mehus - Developer of the excellent <a target="_blank" href="http://www.subsonic.org">Subsonic</a> music streaming software</li><li>Paul Goldsmith - For excellent advice on web worker strategy in Subtunes</li></ul>'
                 }
             ],
             buttons: [{
@@ -425,7 +425,7 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
                         menu: this.makeSettingsMenu()
                     },
                     {
-                        text: 'Get subTunes for Android',
+                        text: 'Get Subtunes for Android',
                         iconCls: 'android',
                         handler: function(){
                             window.open('https://play.google.com/store/apps/details?id=com.runners_id.android.superampify', '_blank');
@@ -435,7 +435,7 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
                         }
                     },
                     {
-                        text: 'About subTunes '+Ext.ux.mattgoldspink.subsonic.subTunesVersion,
+                        text: 'About Subtunes '+Ext.ux.mattgoldspink.subsonic.subTunesVersion,
                         handler: this.launchAbout
                     },
                 ]
