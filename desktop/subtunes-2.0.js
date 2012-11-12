@@ -10,7 +10,7 @@ Ext.ux.mattgoldspink.subsonic.NewVersionWindow = Ext.extend(Ext.Window, {
             title: 'Subtunes ' + Ext.ux.mattgoldspink.subsonic.subTunesVersion,
             items: [
                 {
-                    html: '<p>Subtunes current version can be found under <a href="https://github.com/interstel/subtunes">https://github.com/interstel/subtunes</a>.</p></p>The original version is written by <a target="_blank" href="http://www.mattgoldspink.co.uk">Matt Goldspink</a></p><p>It includes contributions from: <ul><li>Josh Knutson (Chrome app)</li></ul><h3>Licence</h3><p>Subtunes is licenced under the <a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a>.</p><p>It incorporates the following JS libraries:<ul><li><a target="_blank" href="http://sencha.com/products/js">Ext.js</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://sencha.com/products/touch">Sencha touch</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://www.jquery.org">jQuery</a> (<em><a target="_blank" href="https://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt">GPL</a></em>)</li><li><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2">SoundManager2</a> (<em><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2/docs/resources/#licensing">BSD License</a></em>)</li><li><a target="_blank" href="http://pollenjs.com">hive</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPL v2</a></em>)</li><li><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">ImageFlow</a> (<em><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">Creative Commons Attribution-Noncommericial 3.0 unported licence</a></em>)</li><li><a target="_blank" href="http://pablotron.org/software/persist-js/">PersistJS</a> (<em><a target="_blank" href="http://hg.pablotron.org/persist-js/file/9d17e268a9e0/COPYING">MIT Licence</a></em>)</li></ul><h3>Special Thanks</h3><ul><li>Sindre Mehus - Developer of the excellent <a target="_blank" href="http://www.subsonic.org">Subsonic</a> music streaming software</li><li>Paul Goldsmith - For excellent advice on web worker strategy in Subtunes</li></ul>'
+                    html: '<p>Subtunes current version can be found under <a target="_blank" href="https://github.com/interstel/subtunes">https://github.com/interstel/subtunes</a>.</p></p>The original version is written by <a target="_blank" href="http://www.mattgoldspink.co.uk">Matt Goldspink</a></p><p>It includes contributions from: <ul><li>Josh Knutson (Chrome app)</li></ul><h3>Licence</h3><p>Subtunes is licenced under the <a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a>.</p><p>It incorporates the following JS libraries:<ul><li><a target="_blank" href="http://sencha.com/products/js">Ext.js</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://sencha.com/products/touch">Sencha touch</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL licence v3</a></em>)</li><li><a target="_blank" href="http://www.jquery.org">jQuery</a> (<em><a target="_blank" href="https://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt">GPL</a></em>)</li><li><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2">SoundManager2</a> (<em><a target="_blank" href="http://www.schillmania.com/projects/soundmanager2/docs/resources/#licensing">BSD License</a></em>)</li><li><a target="_blank" href="http://pollenjs.com">hive</a> (<em><a target="_blank" href="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPL v2</a></em>)</li><li><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">ImageFlow</a> (<em><a target="_blank" href="http://finnrudolph.de/ImageFlow/Download">Creative Commons Attribution-Noncommericial 3.0 unported licence</a></em>)</li><li><a target="_blank" href="http://pablotron.org/software/persist-js/">PersistJS</a> (<em><a target="_blank" href="http://hg.pablotron.org/persist-js/file/9d17e268a9e0/COPYING">MIT Licence</a></em>)</li></ul><h3>Special Thanks</h3><ul><li>Sindre Mehus - Developer of the excellent <a target="_blank" href="http://www.subsonic.org">Subsonic</a> music streaming software</li><li>Paul Goldsmith - For excellent advice on web worker strategy in Subtunes</li></ul>'
                 }
             ],
             buttons: [{
@@ -379,7 +379,7 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
             plugins: ['msgbus'],
             bbar : new Ext.ux.StatusBar({
 				id: 'bottombar',
-                statusAlign: 'left',
+                statusAlign: 'right',
                 text: 'Ready',
                 ref: 'status',
                 iconCls: 'x-status-valid',
@@ -390,53 +390,62 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
 						enableToggle: false,
 						handler: this.addNewPlaylist,
 						scope: this,
-                        style: {
-                            position: 'absolute',
-                            left: '0px',
-                            top: '0px'
-                        }
 					},
+                    {
+                        iconCls: 'deletePlaylist',
+                        cls: 'left deletePlaylist',
+                        enableToggle: false,
+                        id: 'deletePlaylistButton',
+                        handler: this.deletePlaylist,
+                        scope: this,
+                        style: {
+                            display: 'none'
+                        },
+                        playlistSelected: null
+                    },
                     {
                         iconCls: 'shuffle',
 						cls: 'left shuffle',
 						enableToggle: true,
                         handler: this.handleShuffle,
-						scope: this,
-                        style: {
-                            position: 'absolute',
-                            left: '30px',
-                            top: '0px'
-                        }
+						scope: this
                     },
                     { 
                         iconCls: 'repeat',
 						cls: 'left repeat off',
 						enableToggle: false,
                         handler: this.handleRepeat,
-						scope: this,
+						scope: this
+                    },
+                    {
+                        iconCls: 'cfg',
+                        menu: this.makeSettingsMenu(),
                         style: {
                             position: 'absolute',
-                            left: '60px',
+                            right: '228px',
                             top: '0px'
                         }
                     },
                     {
-                        iconCls: 'cfg',
-                        menu: this.makeSettingsMenu()
-                    },
-                    {
-                        text: 'Get Subtunes for Android',
+                        text: 'Get it on Google Play',
                         iconCls: 'android',
                         handler: function(){
                             window.open('https://play.google.com/store/apps/details?id=com.runners_id.android.superampify', '_blank');
                         },
                         style: {
-                            marginLeft: '5px'
+                            position: 'absolute',
+                            right: '90px',
+                            top: '0px'
                         }
                     },
                     {
-                        text: 'About Subtunes '+Ext.ux.mattgoldspink.subsonic.subTunesVersion,
-                        handler: this.launchAbout
+                        text: 'About Subtunes',
+                        handler: this.launchAbout,
+                        style: {
+                            position: 'absolute',
+                            right: '0px',
+                            top: '0px'
+                        }
                     },
                 ]
             })
@@ -456,10 +465,22 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
             fn: this.handleStatusClear,
             scope: this
         });
+        this.subscribe('subsonic.playlists.selected', {
+            fn: this.handlePlaylistSelected,
+            scope: this
+        });
+        this.subscribe('subsonic.playlists.unselected', {
+            fn: this.handlePlaylistUnselected,
+            scope: this
+        });
     },
 	addNewPlaylist: function(){
 		this.publish('subsonic.playlist.created', true);
 	},
+    deletePlaylist: function(){
+        var delPlayButton = this.toolbars[0].items.items[1];
+        console.log("They be deletin playlist..", delPlayButton.playlistSelected);
+    },
 	handleRepeat: function(button, e){
 		var toBeRemoved, toBeAdded, btnEl = button.getEl();
 		if (btnEl.hasClass('off')) {
@@ -479,6 +500,21 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
 	handleShuffle: function(){
 		this.publish('subsonic.player.shuffle.toggle', true);
 	},
+    handlePlaylistSelected: function(topic, data){
+        /*console.log("playlist has been selected");
+        console.log("data", data);
+        Ext.get('deletePlaylistButton').setStyle('display','block');
+        console.log(Ext.get('deletePlaylistButton'));*/
+        var delPlayButton = this.toolbars[0].items.items[1];
+        //delPlayButton.setStyle('display', 'block');
+        Ext.get(delPlayButton.id).setStyle('display', 'block');
+        delPlayButton.playlistSelected = data.id;
+    },
+    handlePlaylistUnselected: function(topic, data){
+        var delPlayButton = this.toolbars[0].items.items[1];
+        Ext.get(delPlayButton.id).setStyle('display', 'none');
+        delPlayButton.playlistSelected = null;
+    },
     handleStatusClear: function(subject, msg) {
         this.getBottomToolbar().clearStatus({useDefaults:true});
     },
@@ -1043,6 +1079,7 @@ Ext.apply(Ext.ux.mattgoldspink.subsonic.controllers.Store.prototype, {
 	},
     handleFolderClick: function(topic, data) {
         if (data.playlist) {
+            this.publish('subsonic.playlists.selected', data);
 			this.getWebWorkerStore().setPlaylistMode();
 			this.getFolderViewStore().proxy.setUrl(Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/getPlaylist.view');
 			this.getFolderViewStore().reader = this.playlistJsonReader;
@@ -1888,6 +1925,9 @@ Ext.ux.mattgoldspink.subsonic.FolderTreePanel = Ext.extend(Ext.tree.TreePanel, {
 			}
         } else {
             node.expand();
+        }
+        if (node.attributes.playlist === undefined || !node.attributes.playlist){
+            this.publish('subsonic.playlists.unselected', true);
         }
     }
 });
