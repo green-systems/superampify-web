@@ -683,6 +683,13 @@ div.library-node img, div.playlist-node img.x-tree-node-icon, li.x-tree-node .pl
 .bottombar .left.createPlaylist.x-btn-click {
   background-position: 0px -21px;
 }
+.bottombar .left.deletePlaylist {
+  background-position: -4px 1px;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAsCAYAAADvjwGMAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AsMDw0vgQ38dAAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAC+ElEQVRYw9VXS3LUMBB9klyprMMFWIcdJ+AAbHKhUMB1+Gy4BDuqIEmxoVhM2LGCKsZ2f1hEttse2ZY9niqYTewXq/XU6n7Sc7vdveIf+RW7+x/ti3OufRaXx9FJ/mQ2fpKM8759CSF0AzVvFkV+Ym38JBmPjq0ymVX4Zrbp1cIBsMT9OHETP0mGRAyB7h/CdcRCRvrNhBMZndklFFRXXRrNlnEkGbz23pPpT4yb+y5dM2YfmLhbhe9jbiJOatzcd0kypfmgt0KSHsY15+VaxjM1mxmoyQwfMm+w5u9cR4zFmcJbMlVZmhSbzhLtYT5mpCppvqATcYZ4kozVCTtwiDGA1y9fLVbV6xfXk/H73VR1KxXTlj5WYoOFEHBx8WgxmbH4aTJqOsEGiXiDlVWJogjLyYzET27vm7fvtBOsQ4FqMFXGk8vLDAHsd8zt3R1S8UdEjybbsBW/EPD5yy2yI6e6SWa2qTQKbFdF8RxpMBkEEpXFZJyb1RmZPFcajAYakaM3Y7HGt4lyV9gvv/xxCy5XRFXy8qOxJsYuRLqiZmYvV1QbbQneXCGkh4kMpFzdYjI2fpIMGx1QUxeNWDaYG1ya7Ljsmpk7m+xVjuVQZ1pM6rytmFg9z5SZ+y/cwbCAt3ALq93B8P6yhVtY7Q58LFi1Sqw5auS2dweNWjaYcJ3lFHJdxEp34NtIViDX/DZ0Bw4OxzXehu6A5vN8bGZy3QEJ4EKR2VEeLlpeD247cTN3oP4cFecVMIdzBN4/ZIMJQcpt3UEVznD1YT+4Smh8V4MrgLJ9fv/8HF7+bOsO2AP6+OnyCzndwMc5NnMHVO+BM7+YjEh9EGuUjBAhyx3wL3x89hOkHooA7wQFBASPAoJKixazz9+//oZE5d3MHfgC+Hbz6UGANNaGSnwXwAWDmWchSMzMdu6g2h/lDE7mDtY4g5O5g1M4g0XuYI0bOJk7YBE4HwBf4OHIVEAIypJ9gG7rDpgApt7US4p5tTtAbMNuOC92A0vdwV9Adi+AiOcTOAAAAABJRU5ErkJggg==');
+}
+.bottombar .left.deletePlaylist.x-btn-click {
+  background-position: -4px -21px;
+}
 .bottombar .left.shuffle {
   background-position: -38px 1px;
 }
