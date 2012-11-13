@@ -140,6 +140,7 @@ Ext.ux.mattgoldspink.subsonic.controllers.Playlist = function(){
         scope: this,
         fn: this.playlistRenamed
     });
+    this.subscribe('subsonic.playlist.delete', {fn: this.deletePlaylistCall, scope: this});
 };
 
 Ext.apply(Ext.ux.mattgoldspink.subsonic.controllers.Playlist.prototype, {
@@ -216,20 +217,23 @@ Ext.apply(Ext.ux.mattgoldspink.subsonic.controllers.Playlist.prototype, {
 	trackRemoved: function(subject, data) {
 	
 	},
+    deletePlaylistCall: function(reason, playlistId) {
+        Ext.Ajax.request({
+            url: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/deletePlaylist.view',
+            params: Ext.apply({
+                    id: playlistId
+                }, Ext.ux.mattgoldspink.subsonic.LoginDetails),
+            method: 'GET',
+            success: this.handleDeleteSuccess,
+            scope: this,
+            failure: this.handleDeleteFailure
+        });
+    },
 	makeDoDeletePlaylistCall: function(playlistId) {
 	    return function(response, options){
            if (response.responseData.status === 'ok') {
-	            Ext.Ajax.request({
-			        url: Ext.ux.mattgoldspink.subsonic.apiUrl + '/rest/deletePlaylist.view',
-			        params: Ext.apply({
-			                id: playlistId
-		                }, Ext.ux.mattgoldspink.subsonic.LoginDetails),
-                    method: 'GET',
-			        success: this.handleDeleteSuccess,
-			        scope: this,
-			        failure: this.handleDeleteFailure
-		        });
-	        }
+                this.deletePlaylistCall("none", playlistId);     
+	       }
 	    };
 	},
 	handleDeleteFailure: function(response, options) {
@@ -479,7 +483,17 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
 	},
     deletePlaylist: function(){
         var delPlayButton = this.toolbars[0].items.items[1];
-        console.log("They be deletin playlist..", delPlayButton.playlistSelected);
+        Ext.Msg.show({
+           title:'',
+           msg: 'Do you want to delete the playlist <b>'+delPlayButton.playlistSelected.text+"</b>?",
+           buttons: Ext.Msg.YESNO,
+           fn: function(result){
+                if (result === 'yes'){
+                    this.publish('subsonic.playlist.delete', delPlayButton.playlistSelected.id);
+                }
+           }.bind(this),
+           animEl: 'elId'
+        });
     },
 	handleRepeat: function(button, e){
 		var toBeRemoved, toBeAdded, btnEl = button.getEl();
@@ -501,14 +515,9 @@ Ext.ux.mattgoldspink.subsonic.BottomBar = Ext.extend(Ext.Panel, {
 		this.publish('subsonic.player.shuffle.toggle', true);
 	},
     handlePlaylistSelected: function(topic, data){
-        /*console.log("playlist has been selected");
-        console.log("data", data);
-        Ext.get('deletePlaylistButton').setStyle('display','block');
-        console.log(Ext.get('deletePlaylistButton'));*/
         var delPlayButton = this.toolbars[0].items.items[1];
-        //delPlayButton.setStyle('display', 'block');
         Ext.get(delPlayButton.id).setStyle('display', 'block');
-        delPlayButton.playlistSelected = data.id;
+        delPlayButton.playlistSelected = data;
     },
     handlePlaylistUnselected: function(topic, data){
         var delPlayButton = this.toolbars[0].items.items[1];
